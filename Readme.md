@@ -78,8 +78,8 @@ The next step in the procedure is to retrive the best model of automl.
     - Dedicated hyperparameter tuning to further improve model performance
 - An examination of model pipeline that the experiment outputted showed that no data transformation was done as shown below:
 
-'''
 
+```
 datatransformer
 {'enable_dnn': None,
  'enable_feature_sweeping': None,
@@ -96,10 +96,10 @@ datatransformer
 
 MaxAbsScaler
 {'copy': True}
-'''
+```
 - The best model is as following:
-'''
 
+```
 LightGBMClassifier
 {'boosting_type': 'gbdt',
  'class_weight': None,
@@ -122,7 +122,7 @@ LightGBMClassifier
  'subsample_for_bin': 200000,
  'subsample_freq': 0,
  'verbose': -10}
- '''
+```
  
 ### **Step 4: Enable Application Insights**
 
