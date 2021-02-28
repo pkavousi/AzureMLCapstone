@@ -62,7 +62,7 @@ The documentation includes: 1. the [screencast](https://youtu.be/0AKGw1YOcXw) th
 
 ## Screenshots
 
-### **Step 2: Automated ML Experiment**
+### **AutoML Experiment**
 
 The AutoML is configured to run on a compute target. The data cleaning and preprocessing is left to the AutoML. Thus the featurization parameter is set to auto. Since no validation dataset is passed into the AutoML, cross validation on the test data is allowed and n_cross_validations is set to 5. To enable AutoML stop poorly performing runs, enable_early_stopping is set to True. Together with experiment_timeout_minutes which is set to 15, both parameters help to conserve resources (time and compute) available for experimentation.
 
@@ -70,7 +70,7 @@ The experiment runs for about 15 min. and is completed:
 
 ![AutoML completed](img/AutoML_run.PNG?raw=true "AutoML completed")
 
-### **Step 3: Results**
+### **AutoML Results**
 
 The next step in the procedure is to retrive the best model of automl.
 - It is identified that the best model is a LightGBMClassifier with a AUC of 0.9917.
@@ -124,13 +124,11 @@ LightGBMClassifier
  'verbose': -10}
 ```
  
-### **Step 4: Enable Application Insights**
+### **AutoML test on test data**
 
-After the deployment of the best model, I can enable _Application Insights_ and be able to retrieve logs:
+Part of the data was kept separate from AutoML experiment and its crossvalidation to evaluate AutoML model on new data. Results show that model is performin good and TypeI and TypeII erros are not significant. False Negative(FN) are slightly less that False Positive(FP). Usually Banks care more for False Negatives or TypeII errors:
 
-**"Application Insights" enabled in the Details tab of the endpoint**
-
-!["Application Insights" enabled](img/Best_model2_Application_Insights_enabled.JPG?raw=true "'Application Insights' enabled")
+![Confusion Matrix](img/confusionmatrix.PNG?raw=true "Confusion Matrix")
 
 Screenshot of the tab running "Application Insights":
 
