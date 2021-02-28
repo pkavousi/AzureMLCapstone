@@ -21,7 +21,9 @@ This project is formed by two parts:
 - The second part of the project uses XGBoos 1.4 which is downloaded as a ".whl" file. Moreover, the preprocessing step is packaged as a ".whl" file and used during training and deployment to fit_transform training data and just transform data during deployment. The preprocessing pipeline is flexible and can be expanded to more complex and custome preprocssing.
 
 For both parts of the project I use the dataset that can be obtained from
-from Kaggle [here](https://www.kaggle.com/adammaus/predicting-churn-for-bank-customers). A bank is interested to know if a customer will churn given demographic and several other payment history data. The CSV file is uploaded in the datasets and imported here. The classification goal is to predict whether the customer will churn. The result of the prediction appears in _`Attrition_Flag
+from Kaggle [here](https://www.kaggle.com/adammaus/predicting-churn-for-bank-customers). A bank is interested to know if a customer will churn given demographic and several other payment history data. The bank needs a system to predict customer who are likely to Churn. This projects investigates how such a system may be built by leveraging Bank history's data and Azure's Machine Learing platform.
+
+The CSV file is uploaded in the datasets and imported here. The classification goal is to predict whether the customer will churn. The result of the prediction appears in _`Attrition_Flag
 `_ and it is either _`Existing Customer`_ or _`Attrited Customer`_.
 
 ***
@@ -62,58 +64,12 @@ The documentation includes: 1. the [screencast](https://youtu.be/0AKGw1YOcXw) th
 
 ### **Step 2: Automated ML Experiment**
 
-As I explained above, I start with the step 2 because I am using the virtual lab environment that is provided by Udacity.
+The AutoML is configured to run on a compute target. The data cleaning and preprocessing is left to the AutoML. Thus the featurization parameter is set to auto. Since no validation dataset is passed into the AutoML, cross validation on the test data is allowed and n_cross_validations is set to 5. To enable AutoML stop poorly performing runs, enable_early_stopping is set to True. Together with experiment_timeout_minutes which is set to 15, both parameters help to conserve resources (time and compute) available for experimentation.
 
-The first thing I check after opening the Azure Machine Learning Studio, is whether the dataset is included in the Registered Datasets, which it is as we can see below.
+The experiment runs for about 15 min. and is completed:
 
-**Registered Datasets:**
+![AutoML completed](img/AutoML_run.PNG?raw=true "AutoML completed")
 
-![Registered Datasets](img/Registered_Datasets.JPG?raw=true "Registered Datasets")
-
-![Bank-marketing Dataset - Explore](img/Bank-marketing_Dataset_Explore.JPG?raw=true "Bank-marketing Dataset - Explore")
-
-**Creating a new Automated ML run:**
-
-I select the Bank-marketing dataset and in the second screen, I make the following selections:
-
-* Task: _Classification_
-* Primary metric: _Accuracy_
-* _Explain best model_
-* _Exit criterion_: 1 hour in _Job training time (hours)_
-* _Max concurrent iterations_: 5. Please note that the number of concurrent operations **MUST** always be less than the maximum number of nodes configured in the cluster.
-
-![Creating a new Automated ML run](img/Creating_new_AutoML_run.JPG?raw=true "Creating a new Automated ML run")
-
-**Experiment is completed**
-
-The experiment runs for about 20 min. and is completed:
-
-![Experiment is completed](img/Experiment_Completed.JPG?raw=true "Experiment is completed")
-
-![AutoML completed](img/AutoML_Completed.JPG?raw=true "AutoML completed")
-
-![AutoML completed](img/35.JPG?raw=true "AutoML completed")
-
-**Best model**
-
-After the completion, we can see the resulting models:
-
-![Completed run models](img/Completed_run_models.JPG?raw=true "Completed run models")
-
-In the _Models_ tab, the first model (at the top) is the best model.
-You can see it below along with some of its characteristics & metrics:
-
-![Best model](img/Best_model.JPG?raw=true "Best model")
-
-![Best model graphs](img/Best_model_graphs.JPG?raw=true "Best model graphs")
-
-![Best model metrics](img/Best_model2_metrics.JPG?raw=true "Best model metrics")
-
-By clicking the _Data guardrails_ tab, we can also see some very interesting info about potential issues with data. In this case, the imbalanced data issue was flagged:
-
-![Data guardrails](img/Data_guardrails1.JPG?raw=true "Data guardrails")
-
-![Data guardrails  - additional details](img/Data_guardrails2.JPG?raw=true "Data guardrails - additional details")
 
 ### **Step 3: Deploy the Best Model**
 
