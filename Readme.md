@@ -29,7 +29,7 @@ from Kaggle [here](https://www.kaggle.com/adammaus/predicting-churn-for-bank-cus
 
 The architectural diagram is not very detailed by nature; its purpose is to give a rough overview of the operations. The diagram below is a visualization of the flow of operations from start to finish:
 
-![Architectural Diagram](img/Architectural_diagram.png?raw=true "Architectural Diagram") 
+![Architectural Diagram](img/architechture.png?raw=true "Architectural Diagram") 
 
 
 ***
