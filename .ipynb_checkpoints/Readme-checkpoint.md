@@ -79,6 +79,7 @@ The next step in the procedure is to retrive the best model of automl.
 - An examination of model pipeline that the experiment outputted showed that no data transformation was done as shown below:
 
 '''
+
 datatransformer
 {'enable_dnn': None,
  'enable_feature_sweeping': None,
@@ -98,6 +99,7 @@ MaxAbsScaler
 '''
 - The best model is as following:
 '''
+
 LightGBMClassifier
 {'boosting_type': 'gbdt',
  'class_weight': None,
