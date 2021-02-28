@@ -70,15 +70,58 @@ The experiment runs for about 15 min. and is completed:
 
 ![AutoML completed](img/AutoML_run.PNG?raw=true "AutoML completed")
 
+### **Step 3: Results**
 
-### **Step 3: Deploy the Best Model**
+The next step in the procedure is to retrive the best model of automl.
+- It is identified that the best model is a LightGBMClassifier with a AUC of 0.9917.
+    - Investigating the pattern of missing values and exploring more sophisticated ways to fill them
+    - Dedicated hyperparameter tuning to further improve model performance
+- An examination of model pipeline that the experiment outputted showed that no data transformation was done as shown below:
 
-The next step in the procedure is the deployment of the best model.
-First, I choose the best model i.e. the first model at the top in the _Models_ tab. I deploy the model with _Authentication_ enabled and using the _Azure Container Instance_ (ACI).
+'''
+datatransformer
+{'enable_dnn': None,
+ 'enable_feature_sweeping': None,
+ 'feature_sweeping_config': None,
+ 'feature_sweeping_timeout': None,
+ 'featurization_config': None,
+ 'force_text_dnn': None,
+ 'is_cross_validation': None,
+ 'is_onnx_compatible': None,
+ 'logger': None,
+ 'observer': None,
+ 'task': None,
+ 'working_dir': None}
 
-Deploying the best model will allow us to interact with the HTTP API service and interact with the model by sending data over POST requests.
-
-
+MaxAbsScaler
+{'copy': True}
+'''
+- The best model is as following:
+'''
+LightGBMClassifier
+{'boosting_type': 'gbdt',
+ 'class_weight': None,
+ 'colsample_bytree': 1.0,
+ 'importance_type': 'split',
+ 'learning_rate': 0.1,
+ 'max_depth': -1,
+ 'min_child_samples': 20,
+ 'min_child_weight': 0.001,
+ 'min_split_gain': 0.0,
+ 'n_estimators': 100,
+ 'n_jobs': 1,
+ 'num_leaves': 31,
+ 'objective': None,
+ 'random_state': None,
+ 'reg_alpha': 0.0,
+ 'reg_lambda': 0.0,
+ 'silent': True,
+ 'subsample': 1.0,
+ 'subsample_for_bin': 200000,
+ 'subsample_freq': 0,
+ 'verbose': -10}
+ '''
+ 
 ### **Step 4: Enable Application Insights**
 
 After the deployment of the best model, I can enable _Application Insights_ and be able to retrieve logs:
