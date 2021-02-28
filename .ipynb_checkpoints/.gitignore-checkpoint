@@ -1,3 +1,4 @@
 config.json
 # Pyc Files 
 **/**/__pycache__
+.ipynb_checkpoints
