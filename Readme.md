@@ -38,26 +38,20 @@ The architectural diagram is not very detailed by nature; its purpose is to give
 
 The key steps of the project are described below:
 
-- **Authentication:**
-This step was actually omitted since it could not be implemented in the lab space provided by Udacity, because I am not authorized to create a security principal. However, I am still mentioning it here as it is a crucial step if one uses their own Azure account but, obviously, I am not including a screenshot.
+- **Authentication and Data Import:**
+A service principal ID and Password is necessary to run hyperparameter tuning notebook on your Azure account. You can replace yours inside "your password". Service Principal ID gives permission to the code to access resources based on the specifications that you assign to tenant when you create it. Details of Service Principal ID creation is not discussed here. Further instructions can be found in this [link](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-setup-authentication).
 
 - **Automated ML Experiment:**
 At this point, security is enabled and authentication is completed. This step involves the creation of an experiment using Automated ML, configuring a compute cluster, and using that cluster to run the experiment.
 
+- **Hyperparameter tuning Experiment:**
+A XGBoost(1.3.0) model is used with hyperdrive to deploy a webservice that can be used to predict churn probability and label. The model uses two preprocessing steps that uses Categorical Encoder and Standard Scaler on training data and later on new data during deployment. The preprocessing steps are packages as a ".whl" in the bin folder.
+
 - **Deploy the Best Model:**
-After the completion of the experiment run, a summary of all the models and their metrics are shown, including explanations. The _Best Model_ will appear in the _Details_ tab, while it will appear first in the _Models_ tab. This is the model that should be selected for deployment. Its deployment allows to interact with the HTTP API service and interact with the model by sending data over POST requests.
+The best model of hyperparameter optimization experiment with custom preprocessing and XGBoost is deployed locally to ensure it works and also debug its errors. Subsequently, a webservice is deployed that can respond to json format requests.
 
-- **Enable Logging:**
-After the deployment of the Best Model, I enabled Application Insights and retrieve logs.
-
-- **Swagger Documentation:**
-This is the step where the deployed model will be consumed using Swagger. Azure provides a Swagger JSON file for deployed models. We can find the deployed model in the _Endpoints_ section, where it should be the first one on the list.
-
-- **Consume Model Endpoints:**
-Once the model is deployed, I am using the ```endpoint.py``` script to interact with the trained model. I run the script with the _scoring_uri_ that was generated after deployment and -since I enabled Authentication- the _key_ of the service. This URI is found in the _Details_ tab, above the Swagger URI.
-
-- **Create and Publish a Pipeline:**
-In this part of the project, I am using the Jupyter Notebook with the same keys, URI, dataset, cluster, and model names already created.
+- **Logging:**
+Logging is ran for the deployed XGBoost model.
 
 - **Documentation:**
 The documentation includes: 1. the [screencast](https://youtu.be/0AKGw1YOcXw) that shows the entire process of the working ML application; and 2. this README file that describes the project and documents the main steps.
