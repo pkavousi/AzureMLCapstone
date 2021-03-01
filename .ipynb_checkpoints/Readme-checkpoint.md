@@ -4,8 +4,10 @@
    * [Overview](#Overview)
    * [Architectural Diagram](#Architectural-Diagram)
    * [Key Steps](#Key-Steps)
-   * [Screenshots](#Screenshots)
-   * [Screen Recording](#Screen-Recording)
+   * [AutoML](#AutoML)
+   * [XGBoost with optimized hyperparameters](#XGBoost with optimized hyperparameters)
+   * [Deployment](#Deployment)
+   * [Screencast](#Screencast)
    * [Comments and future improvements](#Comments-and-future-improvements)
    * [Dataset Citation](#Dataset-Citation)
    * [References](#References)
@@ -56,11 +58,11 @@ The best model of hyperparameter optimization experiment with custom preprocessi
 Logging is ran for the deployed XGBoost model.
 
 - **Documentation:**
-The documentation includes: 1. the [screencast](https://youtu.be/0AKGw1YOcXw) that shows the entire process of the working ML application; and 2. this README file that describes the project and documents the main steps.
+The documentation includes: 1. the [screencast](https://youtu.be/UAcjcypK0ro) that shows the entire process of the working ML application; and 2. this README file that describes the project and documents the main steps.
 
 ***
 
-## Screenshots
+## AutoML
 
 ### **AutoML Experiment**
 
@@ -132,6 +134,8 @@ Part of the data was kept separate from AutoML experiment and its crossvalidatio
 
 The best model of the AutoML is not deployed. 
 
+## XGBoost with optimized hyperparameters
+
 ### **XGBoost Model Training and Optimization**
 
 The aim of this HyperDrive experiment is to use a XGBoost Classifier from a ".whl" file and optimize its hyperparameters.A sklearn Pipeline consisting of Categorical Encoder and a Standard Scaler is fit to the training data and then transformed it for training step. The scaler is dumped to be used just as a transformer during deployment.
@@ -152,6 +156,9 @@ The main Hyperparameters are used are `gamma` that can control overfitting, `max
 The AUC score of the best model is 0.9936 which is slightly higher than AutoML best AUC of 0.9917. However, the purpose here is not to compare the models since both have room for improvements.
 The confusion matrix of the best XGBoost of hyperdrive is:
 ![Confusion Matrix](img/confusionmatrix-HPO.PNG?raw=true "Confusion Matrix")
+
+## Deployment
+
 ### **Local Docker deployement**
 
 It is usually easier to debug your model locally before deploying it as a Webservise Endpoint. This helps debuuging the model especially if there are preprocessing steps involved. 
@@ -231,9 +238,9 @@ The Best model is deployed using Azure Container Instances (ACI) to provision co
 ![endpoint](img/deployeduri.PNG?raw=true "webservice deployment")
 
 ***
-## Screen Recording
+## Screencast
 
-The screen recording can be found [here]() and it shows the project in action. More specifically, the screencast demonstrates:
+The screen recording can be found [here](https://youtu.be/UAcjcypK0ro) and it shows the project in action. More specifically, the screencast demonstrates:
 
 * The working deployed ML model endpoint
 * The deployed model demo
@@ -242,10 +249,9 @@ The screen recording can be found [here]() and it shows the project in action. M
 ***
 ## Comments and future improvements
 
-* As I have pointed out in the 1st project as well, the data is **highly imbalanced**:
-
-![Highly imbalanced data](img/Imbalanced_data_plot.png?raw=true "Highly imbalanced data")
-
+* An ensemble model and additional feature engineering could improve the model performance. This requires addditional preprocessing steps in the pipeline. 
+* Giving the hyperdrive more time and iterations could significantly improve the model performance. However, this comes with additional cost and time.
+* Although data imbalanced is partly addressed by `scale_pos_weight` in XGBoost, a SMOTE preprocessing step in the pipeline should be further tested.
 
 ***
 ## Dataset Citation
