@@ -145,7 +145,7 @@ churn_pipe = Pipeline(
     ]
 )
 ```
-The optimized hyperparameters are as follwoing:
+The main Hyperparameters are used are `gamma` that can control overfitting, `max_depth`, `learning_rate`,`colsample_bytree` and `scale_pos_weight`, which can help to aleviate problem with imbalanced datasets. A Bayesian hyperparameter optimization approach is used in this network. Thus, termination policy is not necessary. The optimized hyperparameters are as follwoing:
 
 ![HPO](img/HPO.PNG?raw=true "HYperparameter Optimization")
 
@@ -155,6 +155,7 @@ The optimized hyperparameters are as follwoing:
 
 It is usually easier to debug your model locally before deploying it as a Webservise Endpoint. The local deployed model is 
 
+![HPO](img/local_docker.PNG?raw=true "local deployment")
 
 ### **Publish and Consume a Endpoint**
 
