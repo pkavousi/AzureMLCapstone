@@ -160,7 +160,9 @@ churn_pipe = Pipeline(
 The main Hyperparameters are used are `gamma` that can control overfitting, `max_depth`, `learning_rate`,`colsample_bytree` and `scale_pos_weight`, which can help to aleviate problem with imbalanced datasets. A Bayesian hyperparameter optimization approach is used in this network. Thus, termination policy is not necessary. The top two optimized hyperparameter sets are as follwoing:
 
 ![HPO completed](img/HPO_run.PNG?raw=true "Hyperparameter optimization completed")
-![HPO](img/HPO.PNG?raw=true "Hyperparameter Optimization")
+![HPO](img/HPO.PNG?raw=true "Hyperparameter Optimization") 
+Moreover, we can also see the details of the best model in AzureML portal as following:
+![HPO_completedRun](img/HPO_completedRun.PNG?raw=true "Hyperparameter Optimization Completion") 
 
 The AUC score of the best model is 0.9936 which is slightly higher than AutoML best AUC of 0.9917. However, the purpose here is not to compare the models since both have room for improvements.
 The confusion matrix of the best XGBoost of hyperdrive is: 
