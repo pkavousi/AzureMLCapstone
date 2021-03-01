@@ -149,8 +149,9 @@ The main Hyperparameters are used are `gamma` that can control overfitting, `max
 
 ![HPO](img/HPO.PNG?raw=true "HYperparameter Optimization")
 
-The AUC score of the best model is 0.9938 which is slightly higher than AutoML best AUC of 0.9917. However, the purpose here is not to compare the models since both have room for improvements.
-
+The AUC score of the best model is 0.9936 which is slightly higher than AutoML best AUC of 0.9917. However, the purpose here is not to compare the models since both have room for improvements.
+The confusion matrix of the best XGBoost of hyperdrive is:
+![Confusion Matrix](img/confusionmatrix-HPO.PNG?raw=true "Confusion Matrix")
 ### **Local Docker deployement**
 
 It is usually easier to debug your model locally before deploying it as a Webservise Endpoint. This helps debuuging the model especially if there are preprocessing steps involved. 
@@ -214,7 +215,6 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin):
                 X[var] = 0
 
         return X
-
 ```
 - The prep package is use with the following command in the `train.py` and `score.py`.
 
@@ -227,6 +227,7 @@ These three ensure that the test data undergoes the same preprocessing that the 
 - A deployment configuration specifying the resource allocation to the deployment model and additional characteristics such as `Application Insights`
 
 The Best model is deployed using Azure Container Instances (ACI) to provision compute for demanding workloads. The deployed `uri` can be invoked by sending a Json file.
+![endpoint in portal](img/deploy_endpoint.PNG?raw=true "deployed endpoint in portal")
 ![endpoint](img/deployeduri.PNG?raw=true "webservice deployment")
 
 ***
@@ -245,34 +246,15 @@ The screen recording can be found [here]() and it shows the project in action. M
 
 ![Highly imbalanced data](img/Imbalanced_data_plot.png?raw=true "Highly imbalanced data")
 
-Although AutoML normally takes into account this imbalance automatically, there should be more room to improve the model's accuracy in predicting the minority class. For example, we could use Random Under-Sampling of majority class, or Random Over-Sampling of minority class, or even try different algorithms.
-
-A side note here: out of curiosity, I clicked the 'Data guardrails' tab (see screenshots above, step 3) and found many interesting observations done by Azure analysis. Unfortunately, I ran out of time and was not able to look into this with more detail. My remark here is that even though I can understand that there must be time contraints in our runs, this can impede our in depth learning because we miss the chance to browse around looking for the many extra but less important things; this is really a shame. As a suggestion, it would be interesting to create a virtual environment with everything running in simulation -thus running with no actual cost- where the learner could freely look around.
-
-* Another factor that could improve the model is increasing the training time. This suggestion might be seen as a no-brainer, but it would also increase costs and there must always be a balance between minimum required accuracy and assigned budget.
-
-* I could not help but wonder how more accurate would be the resulting model in case `Deep Learning` was used, as we were specifically instructed _NOT_ to enable it in the AutoML settings. While searching for more info, I found this very interesting article in Microsoft Docs: [Deep learning vs. machine learning in Azure Machine Learning](https://docs.microsoft.com/en-us/azure/machine-learning/concept-deep-learning-vs-machine-learning). There it says that deep learning excels at identifying patterns in unstructured data such as images, sound, video, and text. In my understanding, it might be an overkill to use it in a classification problem like this.
-
-* Lastly, a thing that could be taken into account is any future change(s) in the dataset that could impact the accuracy of the model. I do not have any experience on how this could be done in an automated way, but I am sure that a method exists and can be spotted if/when such a need arises.
 
 ***
 ## Dataset Citation
 
-[Moro et al., 2014] S. Moro, P. Cortez and P. Rita. A Data-Driven Approach to Predict the Success of Bank Telemarketing. Decision Support Systems, Elsevier, 62:22-31, June 2014.
+https://www.kaggle.com/adammaus/predicting-churn-for-bank-customers
 
 ***
 ## References
 
 - Udacity Nanodegree material
-- [App](https://app.diagrams.net/) used for the creation of the Architectural Diagram
-- [Prevent overfitting and imbalanced data with automated machine learning](https://docs.microsoft.com/en-us/azure/machine-learning/concept-manage-ml-pitfalls)
-- [Dr. Ware: Dealing with Imbalanced Data in AutoML](https://www.drware.com/dealing-with-imbalanced-data-in-automl/)
-- [Microsoft Tech Community: Dealing with Imbalanced Data in AutoML](https://techcommunity.microsoft.com/t5/azure-ai/dealing-with-imbalanced-data-in-automl/ba-p/1625043)
-- A very interesting paper on the imbalanced classes issue: [Analysis of Imbalance Strategies Recommendation using a
-Meta-Learning Approach](https://www.automl.org/wp-content/uploads/2020/07/AutoML_2020_paper_34.pdf)
 - [Imbalanced Data : How to handle Imbalanced Classification Problems](https://www.analyticsvidhya.com/blog/2017/03/imbalanced-data-classification/)
 - [Consume an Azure Machine Learning model deployed as a web service](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-consume-web-service?tabs=python)
-- [Deep learning vs. machine learning in Azure Machine Learning](https://docs.microsoft.com/en-us/azure/machine-learning/concept-deep-learning-vs-machine-learning)
-- [A Review of Azure Automated Machine Learning (AutoML)](https://medium.com/microsoftazure/a-review-of-azure-automated-machine-learning-automl-5d2f98512406)
-- [Supported data guardrails](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-configure-auto-features#supported-data-guardrails)
-- [Online Video Cutter](https://online-video-cutter.com/)
