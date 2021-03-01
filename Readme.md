@@ -145,19 +145,46 @@ churn_pipe = Pipeline(
     ]
 )
 ```
-The main Hyperparameters are used are `gamma` that can control overfitting, `max_depth`, `learning_rate`,`colsample_bytree` and `scale_pos_weight`, which can help to aleviate problem with imbalanced datasets. A Bayesian hyperparameter optimization approach is used in this network. Thus, termination policy is not necessary. The optimized hyperparameters are as follwoing:
+The main Hyperparameters are used are `gamma` that can control overfitting, `max_depth`, `learning_rate`,`colsample_bytree` and `scale_pos_weight`, which can help to aleviate problem with imbalanced datasets. A Bayesian hyperparameter optimization approach is used in this network. Thus, termination policy is not necessary. The top two optimized hyperparameter sets are as follwoing:
 
 ![HPO](img/HPO.PNG?raw=true "HYperparameter Optimization")
 
-
+The AUC score of the best model is 0.9938 which is slightly higher than AutoML best AUC of 0.9917. However, the purpose here is not to compare the models since both have room for improvements.
 
 ### **Local Docker deployement**
 
-It is usually easier to debug your model locally before deploying it as a Webservise Endpoint. The local deployed model is 
+It is usually easier to debug your model locally before deploying it as a Webservise Endpoint. This helps debuuging the model especially if there are preprocessing steps involved. 
 
 ![HPO](img/local_docker.PNG?raw=true "local deployment")
 
 ### **Publish and Consume a Endpoint**
+A number of things are important to deploying the trained XGBoost model. They include:
+- Optimal hyperparameters obtained for the classifiers through the hyperdrive Steps.
+- XGBoost(1.3.0) is uploaded as '.whl' file and added to the environemt for training and deployment.
+- Categorical Encoder class is packaged into ".whl" file and added to the specified environemt(`myenv`) for both training and deployment. This ensures that SKlearn versions and incompatibility between packages does not invalidate the `score.py` functionality.
+```
+whl_url="https://s3-us-west-2.amazonaws.com/xgboost-nightly-builds/xgboost-1.3.0_SNAPSHOT%2Bb3193052b31e3e984f0f3d9c2c67ae3c2e114f9b-py3-none-manylinux2010_x86_64.whl"
+
+# The custome preprocessing package is uploaded to 
+whl_url2 = Environment.add_private_pip_wheel(workspace=ws,
+                                            file_path = "bin/prep_package-0.1.0-py3-none-any.whl",exist_ok=True)
+
+# We add the packages that are necessaary
+conda_dep = CondaDependencies()
+conda_dep.add_pip_package(whl_url)
+conda_dep.add_pip_package(whl_url2)
+conda_dep.add_pip_package("numpy~=1.18.0")
+conda_dep.add_pip_package("scikit-learn==0.22.1")
+conda_dep.add_pip_package("pandas~=0.25.0")
+# We add all the added packages to myenv
+myenv.python.conda_dependencies=conda_dep
+```
+
+
+These three ensure that the test data undergoes the same preprocessing that the train data did and that it contains only the columns the `VotingEnsemble` was trained on. In addition, the following are necessary for model deployment:
+- `score.py` which details how the deployed model interacts with requests
+- An inference configuration which specifies the environment into which the model is deployed
+- A deployment configuration specifying the resource allocation to the deployment model and additional characteristics such as `Application Insights`
 
 
 
