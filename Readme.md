@@ -163,7 +163,8 @@ The main Hyperparameters are used are `gamma` that can control overfitting, `max
 ![HPO](img/HPO.PNG?raw=true "Hyperparameter Optimization")
 
 The AUC score of the best model is 0.9936 which is slightly higher than AutoML best AUC of 0.9917. However, the purpose here is not to compare the models since both have room for improvements.
-The confusion matrix of the best XGBoost of hyperdrive is:
+The confusion matrix of the best XGBoost of hyperdrive is: 
+
 ![Confusion Matrix](img/confusionmatrix-HPO.PNG?raw=true "Confusion Matrix")
 
 ## Deployment
