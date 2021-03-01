@@ -72,6 +72,12 @@ The experiment runs for about 15 min. and is completed:
 
 ![AutoML_run](img/AutoML_run.PNG?raw=true "AutoML Completed")
 
+The completed AutoML with their corresponding Run IDs are shown here:
+
+![AutoML_run_details](img/amldetails.PNG?raw=true "AutoML Details")
+
+
+
 ### **AutoML Results**
 
 The next step in the procedure is to retrive the best model of automl.
