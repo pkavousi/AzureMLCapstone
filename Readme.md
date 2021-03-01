@@ -130,101 +130,35 @@ Part of the data was kept separate from AutoML experiment and its crossvalidatio
 
 ![Confusion Matrix](img/confusionmatrix.PNG?raw=true "Confusion Matrix")
 
-Screenshot of the tab running "Application Insights":
+The best model of the AutoML is not deployed. 
 
-!["Application Insights" graphs](img/Best_model2_Application_Insights_tab.JPG?raw=true "'Application Insights' graphs")
+### **XGBoost Model Training and Optimization**
 
-We can see _Failed requests_, _Server response time_, _Server requests_ & _Availability_ graphs in real time.
+The aim of this HyperDrive experiment is to use a XGBoost Classifier from a ".whl" file and optimize its hyperparameters.A sklearn Pipeline consisting of Categorical Encoder and a Standard Scaler is fit to the training data and then transformed it for training step. The scaler is dumped to be used just as a transformer during deployment.
 
+```
+churn_pipe = Pipeline(
+    [
+        ('categorical_encoder',
+            CategoricalEncoder(variables=vars_cat)),
+        ('scaler', StandardScaler()),
+    ]
+)
+```
+The optimized hyperparameters are as follwoing:
 
-**Running logs.py script**
-
-Although we can enable _Application Insights_ at deploy time with a check-box, it is useful to be able to run code that will enable it for us. For this reason, I run the _logs.py_ Python file, where I put in _name_ the name of the deployed model (_best-model2_) and I add the line `service.update(enable_app_insights=True)`: 
-
-![Running logs.py script](img/Best_model2-logs_py_running.JPG?raw=true "Running logs.py script")
-
-
-### **Step 5: Swagger Documentation**
-
-**Swagger** is a set of open-source tools built around the OpenAPI Specification that can help us design, build, document and consume REST APIs. One of the major tools of Swagger is **Swagger UI**, which is used to generate interactive API documentation that lets the users try out the API calls directly in the browser.
-
-In this step, I consume the deployed model using Swagger. Azure provides a _Swagger JSON file_ for deployed models. This file can be found in the _Endpoints_ section, in the deployed model there, which should be the first one on the list. I download this file and save it in the _Swagger_ folder.
-
-I execute the files _swagger.sh_ and _serve.py_. What these two files do essentially is to download and run the latest Swagger container (_swagger.sh_), and start a Python server on port 9000 (_serve.py_).
-
-![swagger.sh run](img/best_model2-Swagger1B.JPG?raw=true "swagger.sh run")
-
-![swagger.sh run](img/best_model2-Swagger1A.JPG?raw=true "swagger.sh run")
-
-In the Live Demo page of Swagger UI:
-
-![Swagger UI](img/Swagger_LiveDemo1.JPG?raw=true "Swagger UI")
-
-I click on Live Demo button and am transfered in a demo page with a sample server:
-
-![Swagger UI](img/Swagger_LiveDemo2.JPG?raw=true "Swagger UI Live Demo")
-
-I delete the address in the address bar pointed with the red arrow and replace it with: `http://localhost:9000/swagger.json`. After hitting _Explore_, Swagger UI generates interactive API documentation that lets us try out the API calls directly in the browser. 
-
-![Swagger runs on localhost](img/61.JPG?raw=true "Swagger runs on localhost")
-
-We can see below the HTTP API methods and responses for the model:
-
-**Swagger runs on localhost - GET & POST/score endpoints**
-
-![Swagger runs on localhost](img/best_model2-Swagger1.JPG?raw=true "Swagger runs on localhost")
-
-![Swagger runs on localhost - GET endpoint](img/best_model2-Swagger2.JPG?raw=true "Swagger runs on localhost - GET endpoint")
-
-![Swagger runs on localhost - POST/score endpoint](img/best_model2-Swagger3.JPG?raw=true "Swagger runs on localhost - POST/score endpoint")
+![HPO](img/HPO.PNG?raw=true "HYperparameter Optimization")
 
 
-### **Step 6: Consume Model Endpoints**
 
-Once the best model is deployed, I consume its endpoint using the `endpoint.py` script provided where I replace the values of `scoring_uri` and `key` to match the corresponding values that appear in the _Consume_ tab of the endpoint: 
+### **Local Docker deployement**
 
-**Consume Model Endpoints: running endpoint.py**
-
-![endpoint.py](img/best_model2_enpoint_py.JPG?raw=true "endpoint.py")
-
-![run endpoint.py](img/best_model2_enpoint_py_run.JPG?raw=true "run endpoint.py")
+It is usually easier to debug your model locally before deploying it as a Webservise Endpoint. The local deployed model is 
 
 
-### **Step 7: Create, Publish and Consume a Pipeline**
+### **Publish and Consume a Endpoint**
 
-In this second part of the project, I use the Jupyter Notebook provided: `aml-pipelines-with-automated-machine-learning-step.ipynb`. The notebook is updated so as to have the same dataset, keys, URI, cluster, and model names that I created in the first part. 
 
-The purpose of this step is to create, publish and consume a pipeline using the Azure Python SDK. We can see below the relevant screenshots: 
-
-**The Pipelines section of Azure ML Studio**
-
-![Pipeline has been created](img/Pipeline_has_been_created.JPG?raw=true "Pipeline has been created")
-
-![Pipeline Endpoint](img/Pipeline_Endpoint.JPG?raw=true "Pipeline Endpoint")
-
-**Bankmarketing dataset with the AutoML module** 
-
-![Bankmarketing dataset with the AutoML module](img/Bankmarketing_Dataset+AutoML_module.JPG?raw=true "Bankmarketing dataset with the AutoML module")
-
-**Published Pipeline Overview showing a REST endpoint and an ACTIVE status** 
-
-![Published Pipeline Overview showing a REST endpoint and an ACTIVE status](img/41.JPG?raw=true "Published Pipeline Overview showing a REST endpoint and an ACTIVE status")
-
-![Published Pipeline Overview showing a REST endpoint and an ACTIVE status](img/42.JPG?raw=true "Published Pipeline Overview showing a REST endpoint and an ACTIVE status")
-
-**Jupyter Notebook: RunDetails Widget shows the step runs** 
-
-![Jupyter Notebook: RunDetails Widget shows the step runs](img/RunDetailsWidget1.JPG?raw=true "Jupyter Notebook: RunDetails Widget shows the step runs")
-
-![Jupyter Notebook: RunDetails Widget shows the step runs](img/RunDetailsWidget2.JPG?raw=true "Jupyter Notebook: RunDetails Widget shows the step runs")
-
-**In ML Studio: Completed run** 
-
-![In ML Studio](img/40.JPG?raw=true "In ML Studio")
-
-![In ML Studio](img/50.JPG?raw=true "In ML Studio")
-
-![In ML Studio](img/51.JPG?raw=true "In ML Studio")
 
 ***
 ## Screen Recording
