@@ -181,12 +181,13 @@ myenv.python.conda_dependencies=conda_dep
 ```
 
 
-These three ensure that the test data undergoes the same preprocessing that the train data did and that it contains only the columns the `VotingEnsemble` was trained on. In addition, the following are necessary for model deployment:
+These three ensure that the test data undergoes the same preprocessing that the train data did and that it contains only the columns the `XGBoost` was trained on. In addition, the following are necessary for model deployment:
 - `score.py` which details how the deployed model interacts with requests
 - An inference configuration which specifies the environment into which the model is deployed
 - A deployment configuration specifying the resource allocation to the deployment model and additional characteristics such as `Application Insights`
 
-
+The Best model is deployed using Azure Container Instances (ACI) to provision compute for demanding workloads. The deployed `uri` can be invoked by sending a Json file.
+![endpoint](img/deployeduri.PNG?raw=true "webservice deployment")
 
 ***
 ## Screen Recording
