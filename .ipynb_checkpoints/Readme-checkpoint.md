@@ -5,7 +5,7 @@
    * [Architectural Diagram](#Architectural-Diagram)
    * [Key Steps](#Key-Steps)
    * [AutoML](#AutoML)
-   * [XGBoost with optimized hyperparameters](#XGBoost with optimized hyperparameters)
+   * [XGBoost](#XGBoost)
    * [Deployment](#Deployment)
    * [Screencast](#Screencast)
    * [Comments and future improvements](#Comments-and-future-improvements)
@@ -134,7 +134,7 @@ Part of the data was kept separate from AutoML experiment and its crossvalidatio
 
 The best model of the AutoML is not deployed. 
 
-## XGBoost with optimized hyperparameters
+## XGBoost
 
 ### **XGBoost Model Training and Optimization**
 
