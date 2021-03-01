@@ -1,4 +1,4 @@
-# AzureML Enginnering Capstone Project: Bank Customers Churn Model 
+# AzureML Engineering Capstone Project: Bank Customers Churn Model 
 
 ## Table of contents
    * [Overview](#Overview)
