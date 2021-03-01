@@ -70,7 +70,7 @@ The AutoML is configured to run on a compute target. The data cleaning and prepr
 
 The experiment runs for about 15 min. and is completed:
 
-![AutoML completed](img/AutoML_run.PNG?raw=true "AutoML completed")
+![AutoML_run](img/AutoML_run.PNG?raw=true "AutoML Completed")
 
 ### **AutoML Results**
 
@@ -125,14 +125,16 @@ LightGBMClassifier
  'subsample_freq': 0,
  'verbose': -10}
 ```
- 
+The best model of AutoML is registered to be ready for deployment. However, please note that this model is not deployed in this notebook.
+
+![AutoML_run_registered](img/AutoML_run_registered.PNG?raw=true "AutoML_run_registered")
+
 ### **AutoML test on test data**
 
 Part of the data was kept separate from AutoML experiment and its crossvalidation to evaluate AutoML model on new data. Results show that model is performin good and TypeI and TypeII erros are not significant. False Negative(FN) are slightly less that False Positive(FP). Usually Banks care more for False Negatives or TypeII errors:
 
 ![Confusion Matrix](img/confusionmatrix.PNG?raw=true "Confusion Matrix")
 
-The best model of the AutoML is not deployed. 
 
 ## XGBoost
 
@@ -151,7 +153,8 @@ churn_pipe = Pipeline(
 ```
 The main Hyperparameters are used are `gamma` that can control overfitting, `max_depth`, `learning_rate`,`colsample_bytree` and `scale_pos_weight`, which can help to aleviate problem with imbalanced datasets. A Bayesian hyperparameter optimization approach is used in this network. Thus, termination policy is not necessary. The top two optimized hyperparameter sets are as follwoing:
 
-![HPO](img/HPO.PNG?raw=true "HYperparameter Optimization")
+![HPO completed](img/HPO_run.PNG?raw=true "Hyperparameter optimization completed")
+![HPO](img/HPO.PNG?raw=true "Hyperparameter Optimization")
 
 The AUC score of the best model is 0.9936 which is slightly higher than AutoML best AUC of 0.9917. However, the purpose here is not to compare the models since both have room for improvements.
 The confusion matrix of the best XGBoost of hyperdrive is:
