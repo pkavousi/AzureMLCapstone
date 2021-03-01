@@ -179,8 +179,48 @@ conda_dep.add_pip_package("pandas~=0.25.0")
 # We add all the added packages to myenv
 myenv.python.conda_dependencies=conda_dep
 ```
+- The built preprocessing package is named 'prep' and it has only one class as CategoricalEncoder which is based on SKlearn custome prewprocessing class
+```
+from sklearn.base import BaseEstimator, TransformerMixin
 
+class CategoricalEncoder(BaseEstimator, TransformerMixin):
 
+    def __init__(self, variables=None):
+        if not isinstance(variables, list):
+            self.variables = [variables]
+        else:
+            self.variables = variables
+
+    def fit(self, X, y=None):
+
+        # persist the dummy variables found in train set
+        self.dummies = pd.get_dummies(X[self.variables], drop_first=True).columns
+        return self
+
+    def transform(self, X):
+        # encode labels
+        X = X.copy()
+        X = pd.concat([X,
+                       pd.get_dummies(X[self.variables], drop_first=True)],
+                       axis=1)
+
+        X.drop(labels=self.variables, axis=1, inplace=True)
+
+        # add missing dummies if any
+        missing_vars = [var for var in self.dummies if var not in X.columns]
+
+        if len(missing_vars) != 0:
+            for var in missing_vars:
+                X[var] = 0
+
+        return X
+
+```
+- The prep package is use with the following command in the `train.py` and `score.py`.
+
+```
+from prep import CategoricalEncoder
+```
 These three ensure that the test data undergoes the same preprocessing that the train data did and that it contains only the columns the `XGBoost` was trained on. In addition, the following are necessary for model deployment:
 - `score.py` which details how the deployed model interacts with requests
 - An inference configuration which specifies the environment into which the model is deployed
@@ -192,13 +232,11 @@ The Best model is deployed using Azure Container Instances (ACI) to provision co
 ***
 ## Screen Recording
 
-The screen recording can be found [here](https://youtu.be/0AKGw1YOcXw) and it shows the project in action. More specifically, the screencast demonstrates:
+The screen recording can be found [here]() and it shows the project in action. More specifically, the screencast demonstrates:
 
 * The working deployed ML model endpoint
-* The deployed Pipeline
-* Available AutoML Model
+* The deployed model demo
 * Successful API requests to the endpoint with a JSON payload
-
 
 ***
 ## Comments and future improvements
