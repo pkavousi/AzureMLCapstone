@@ -161,7 +161,9 @@ The main Hyperparameters are used are `gamma` that can control overfitting, `max
 
 ![HPO completed](img/HPO_run.PNG?raw=true "Hyperparameter optimization completed")
 ![HPO](img/HPO.PNG?raw=true "Hyperparameter Optimization") 
+
 Moreover, we can also see the details of the best model in AzureML portal as following:
+
 ![HPO_completedRun](img/HPO_completedRun.PNG?raw=true "Hyperparameter Optimization Completion") 
 
 The AUC score of the best model is 0.9936 which is slightly higher than AutoML best AUC of 0.9917. However, the purpose here is not to compare the models since both have room for improvements.
