@@ -179,7 +179,7 @@ It is usually easier to debug your model locally before deploying it as a Webser
 
 ![HPO](img/local_docker.PNG?raw=true "local deployment")
 
-### **Model Profiling
+### **Model Profiling**
 Once the model is ready and registered for deployment, we can determine the CPU and memory the deployed service will need. Profiling tests the service that runs the model and returns information such as the CPU usage, memory usage, and response latency. It also provides a recommendation for the CPU and memory based on resource usage.
 
 ```
