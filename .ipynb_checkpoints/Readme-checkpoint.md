@@ -162,7 +162,7 @@ The main Hyperparameters are used are `gamma` that can control overfitting, `max
 ![HPO completed](img/HPO_run.PNG?raw=true "Hyperparameter optimization completed")
 ![HPO](img/HPO.PNG?raw=true "Hyperparameter Optimization") 
 
-Moreover, we can also see the details of the best model in AzureML portal as following:
+Moreover, we can see the details of the best model in AzureML portal as following:
 
 ![HPO_completedRun](img/HPO_completedRun.PNG?raw=true "Hyperparameter Optimization Completion") 
 
@@ -178,6 +178,32 @@ The confusion matrix of the best XGBoost of hyperdrive is:
 It is usually easier to debug your model locally before deploying it as a Webservise Endpoint. This helps debuuging the model especially if there are preprocessing steps involved. 
 
 ![HPO](img/local_docker.PNG?raw=true "local deployment")
+
+### **Model Profiling
+Once the model is ready and registered for deployment, we can determine the CPU and memory the deployed service will need. Profiling tests the service that runs the model and returns information such as the CPU usage, memory usage, and response latency. It also provides a recommendation for the CPU and memory based on resource usage.
+
+```
+{'name': 'profile_test',
+ 'createdTime': '2021-03-02T01:26:37.572959+00:00',
+ 'state': 'Succeeded',
+ 'requestedCpu': 3.5,
+ 'requestedMemoryInGB': 15.0,
+ 'requestedQueriesPerSecond': 0,
+ 'maxUtilizedMemoryInGB': 0.13344631466666668,
+ 'totalQueries': 1000.0,
+ 'successQueries': 1000.0,
+ 'successRate': 100.0,
+ 'averageLatencyInMs': 26.273320000000002,
+ 'latencyPercentile50InMs': 26.43,
+ 'latencyPercentile90InMs': 28.38,
+ 'latencyPercentile95InMs': 29.17,
+ 'latencyPercentile99InMs': 33.44,
+ 'latencyPercentile999InMs': 39.9,
+ 'maxUtilizedCpu': 0.376,
+ 'measuredQueriesPerSecond': 38.06142505020302,
+ 'recommendedMemoryInGB': 0.5,
+ 'recommendedCpu': 0.5}
+```
 
 ### **Publish and Consume a Endpoint**
 A number of things are important to deploying the trained XGBoost model. They include:
